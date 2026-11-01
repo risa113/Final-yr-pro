@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { calculateDailyTargets, type Gender, type ActivityLevel, type GoalType } from "@/lib/nutrition/calculator";
 
-export const dynamic = "force-dynamic";
-
 export async function GET(req: NextRequest) {
   try {
     const supabase = await createClient();

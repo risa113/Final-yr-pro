@@ -30,7 +30,9 @@ export default function RootLayout({
   );
   const hasSupabase = Boolean(
     process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      !process.env.NEXT_PUBLIC_SUPABASE_URL.includes("placeholder")
+      !process.env.NEXT_PUBLIC_SUPABASE_URL.includes("placeholder") &&
+      (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY)
   );
   const hasUsda = Boolean(
     process.env.USDA_API_KEY && process.env.USDA_API_KEY !== "DEMO_KEY"

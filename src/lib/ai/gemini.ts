@@ -74,7 +74,7 @@ Return ONLY a valid JSON object with these exact keys:
   const cleanBase64 = base64Image.replace(/^data:image\/\w+;base64,/, "");
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
+    model: "gemini-3.8-flash",
     contents: [
       {
         role: "user",
@@ -319,7 +319,7 @@ CORE INSTRUCTIONS:
   ];
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
+    model: "gemini-3.8-flash",
     contents: contents as any,
     config: {
       systemInstruction: {
