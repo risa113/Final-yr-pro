@@ -45,4 +45,6 @@
 - [x] Created comprehensive Testing Report (`TESTING_REPORT.md`).
 - [x] Created step-by-step Environment Setup guide (`ENVIRONMENT_SETUP.md`) and `.env.example`.
 - [x] Created master repository documentation (`README.md`, `PROJECT_PLAN.md`, `SYSTEM_ARCHITECTURE.md`, `DATABASE_SCHEMA.md`, `API_DOCUMENTATION.md`).
-- [!] User action: Paste Supabase and Gemini credentials into `.env.local` to enable live cloud sync.
+- [x] Gemini API key configured and verified with live `gemini-3.8-flash` model.
+- [x] Supabase project URL and publishable key configured in `.env.local`.
+- [x] Production build verified with real environment variables.
