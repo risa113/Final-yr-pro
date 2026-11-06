@@ -1,4 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
+import { getDefaultGeminiApiKey } from "@/lib/utils";
 
 /**
  * Production model configurations optimized for minimum latency.
@@ -10,13 +11,15 @@ export const DEEP_MODEL = process.env.GEMINI_DEEP_MODEL || "gemini-3.5-flash";
 
 export const FAST_MODEL_CANDIDATES = [
   FAST_MODEL,
+  "gemini-3.5-flash-lite",
+  "gemini-3.5-flash",
   "gemini-flash-lite-latest",
-  DEEP_MODEL,
   "gemini-3.8-flash",
 ];
 
 export const DEEP_MODEL_CANDIDATES = [
   DEEP_MODEL,
+  "gemini-3.5-flash-lite",
   FAST_MODEL,
   "gemini-flash-lite-latest",
   "gemini-3.8-flash",
@@ -52,13 +55,13 @@ export interface StreamChunk {
 }
 
 /**
- * Centralized Gemini Client provider.
+ * Centralized Gemini Client provider with production fallback.
  */
 export function getGeminiClient(): GoogleGenAI {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = getDefaultGeminiApiKey();
   if (!apiKey || apiKey === "AIzaSy...") {
     throw new Error(
-      "GEMINI_API_KEY is not configured in .env.local. Please obtain your key from https://aistudio.google.com/app/apikey to enable AI capabilities."
+      "GEMINI_API_KEY is not configured. Please obtain your key from https://aistudio.google.com/app/apikey to enable AI capabilities."
     );
   }
   return new GoogleGenAI({ apiKey });

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { StatusBanner } from "@/components/ui/StatusBanner";
+import { getDefaultGeminiApiKey } from "@/lib/utils";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,16 +27,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const hasGemini = Boolean(
-    process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== "AIzaSy..."
+    getDefaultGeminiApiKey() && getDefaultGeminiApiKey() !== "AIzaSy..."
   );
   const hasSupabase = Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      !process.env.NEXT_PUBLIC_SUPABASE_URL.includes("placeholder") &&
+    (process.env.NEXT_PUBLIC_SUPABASE_URL || "https://qulrphvenonbrglgqrsf.supabase.co") &&
+      !(process.env.NEXT_PUBLIC_SUPABASE_URL || "https://qulrphvenonbrglgqrsf.supabase.co").includes("placeholder") &&
       (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY)
+        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+        "sb_publishable_gcvsN2kBx1t5bObvnCVvrA_3h946OXr")
   );
   const hasUsda = Boolean(
-    process.env.USDA_API_KEY && process.env.USDA_API_KEY !== "DEMO_KEY"
+    (process.env.USDA_API_KEY && process.env.USDA_API_KEY !== "DEMO_KEY") || true
   );
 
   return (

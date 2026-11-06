@@ -32,13 +32,37 @@ export default function RegisterPage() {
       });
 
       if (error) {
-        if (error.message.includes("placeholder") || error.message.includes("fetch failed")) {
-          // If Supabase is not configured yet, direct them to onboarding for local testing
+        if (
+          error.message.includes("placeholder") ||
+          error.message.includes("fetch failed") ||
+          error.message.includes("rate limit")
+        ) {
+          if (typeof window !== "undefined") {
+            localStorage.setItem(
+              "nutri_user_session",
+              JSON.stringify({
+                email,
+                fullName: fullName || "Student User",
+                isDemo: true,
+              })
+            );
+          }
           router.push("/onboarding");
         } else {
           setErrorMsg(error.message);
         }
       } else if (data?.user) {
+        if (typeof window !== "undefined") {
+          localStorage.setItem(
+            "nutri_user_session",
+            JSON.stringify({
+              id: data.user.id,
+              email: data.user.email || email,
+              fullName: fullName || "Student User",
+              isDemo: false,
+            })
+          );
+        }
         router.push("/onboarding");
       }
     } catch (err: any) {

@@ -74,7 +74,7 @@ export default function LandingPage() {
               <p className="text-xs text-slate-500 font-medium mt-1">Verified Indian Dishes (IFCT)</p>
             </div>
             <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-              <p className="text-2xl font-bold text-emerald-600">Gemini 2.5</p>
+              <p className="text-2xl font-bold text-emerald-600">Gemini AI</p>
               <p className="text-xs text-slate-500 font-medium mt-1">Multimodal Vision Pipeline</p>
             </div>
             <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">

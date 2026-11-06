@@ -1,4 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
+import { getDefaultGeminiApiKey } from "../utils";
 import {
   findClosestIFCTFood,
   searchAllFoods,
@@ -81,10 +82,10 @@ export interface FoodScanResult {
 }
 
 function getGeminiClient(): GoogleGenAI {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = getDefaultGeminiApiKey();
   if (!apiKey || apiKey === "AIzaSy...") {
     throw new Error(
-      "GEMINI_API_KEY is not configured. Please add your key in .env.local to enable AI features."
+      "GEMINI_API_KEY is not configured. Please add your key to enable AI features."
     );
   }
   return new GoogleGenAI({ apiKey });
@@ -602,9 +603,10 @@ CORE INSTRUCTIONS:
   ];
 
   const candidateModels = [
-    process.env.PRIMARY_VISION_MODEL || "gemini-flash-lite-latest",
-    "gemini-3.1-flash-lite",
+    process.env.PRIMARY_VISION_MODEL || "gemini-3.1-flash-lite",
+    "gemini-3.5-flash-lite",
     "gemini-3.5-flash",
+    "gemini-flash-lite-latest",
     "gemini-3.8-flash",
   ];
 

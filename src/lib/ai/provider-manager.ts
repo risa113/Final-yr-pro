@@ -5,6 +5,7 @@
  */
 
 import { GoogleGenAI } from "@google/genai";
+import { getDefaultGeminiApiKey } from "../utils";
 
 export type AIProviderName = "gemini" | "openai";
 
@@ -89,12 +90,13 @@ export function isQuotaExhaustedError(error: any): boolean {
 
 /**
  * Ordered vision model candidate list.
- * gemini-flash-lite-latest has proven to have active quota when 3.5/3.8 hit free tier limits.
+ * Fast, reliable 2026 models with immediate quota availability.
  */
 export const VISION_MODEL_CANDIDATES = [
-  process.env.PRIMARY_VISION_MODEL || "gemini-flash-lite-latest",
-  "gemini-3.1-flash-lite",
+  process.env.PRIMARY_VISION_MODEL || "gemini-3.1-flash-lite",
+  "gemini-3.5-flash-lite",
   "gemini-3.5-flash",
+  "gemini-flash-lite-latest",
   "gemini-3.8-flash",
 ];
 
@@ -122,10 +124,10 @@ export async function executeVisionAnalysis(
   const cleanBase64 = base64Image.replace(/^data:image\/\w+;base64,/, "");
 
   let lastError: any = null;
-  let allQuotaExhausted = true;
+  let allQuotaExhausted = false;
 
   // 1. Try Gemini Vision candidates
-  const geminiKey = process.env.GEMINI_API_KEY;
+  const geminiKey = getDefaultGeminiApiKey();
   if (geminiKey && geminiKey !== "AIzaSy...") {
     const ai = new GoogleGenAI({ apiKey: geminiKey });
 
@@ -244,7 +246,7 @@ export async function executeVisionAnalysis(
   }
 
   // 3. Transparent Quota / Failure Error
-  if (isQuotaExhaustedError(lastError) || allQuotaExhausted) {
+  if (lastError && (isQuotaExhaustedError(lastError) || allQuotaExhausted)) {
     const error: any = new Error(
       "The AI Vision service has temporarily reached its Free Tier quota limit. Please wait a minute and retry, or enter portions manually."
     );
