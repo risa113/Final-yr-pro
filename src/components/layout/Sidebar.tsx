@@ -25,7 +25,7 @@ export function Sidebar() {
     { label: "AI Food Scanner", href: "/scanner", icon: Camera, badge: "AI" },
     { label: "Food Diary", href: "/diary", icon: BookOpen },
     { label: "Food Search", href: "/foods", icon: Search },
-    { label: "AI Nutritionist", href: "/assistant", icon: Bot, badge: "Gemini" },
+    { label: "Tarik AI Chatbot", href: "/assistant", icon: Bot, badge: "AI" },
     { label: "Meal Planner", href: "/meal-planner", icon: CalendarDays },
     { label: "Analytics", href: "/analytics", icon: BarChart3 },
     { label: "User Settings", href: "/settings", icon: Settings },

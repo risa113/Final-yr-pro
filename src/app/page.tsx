@@ -63,7 +63,7 @@ export default function LandingPage() {
               className="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-6 py-3.5 rounded-xl border border-indigo-200 transition-all text-sm"
             >
               <Bot className="w-4 h-4 text-indigo-600" />
-              <span>Talk to AI Nutritionist</span>
+              <span>Tarik AI Nutrition Chatbot</span>
             </Link>
           </div>
 

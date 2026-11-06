@@ -105,7 +105,7 @@ export function Navbar() {
             className="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-colors hidden sm:inline-flex"
           >
             <Bot className="w-3.5 h-3.5 text-indigo-600" />
-            <span>AI Nutritionist</span>
+            <span>Tarik AI</span>
           </Link>
         </div>
 
@@ -182,7 +182,7 @@ export function Navbar() {
             }`}
           >
             <Bot className="w-4 h-4 text-emerald-600" />
-            <span>AI Assistant</span>
+            <span>Tarik AI Chatbot</span>
           </Link>
           <Link
             href="/meal-planner"

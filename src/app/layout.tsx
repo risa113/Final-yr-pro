@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NutriContext AI – Context-Aware AI Food & Nutrition Assistant",
+  title: "Tarik AI Nutrition Chatbot – Context-Aware AI Food & Nutrition Platform",
   description:
-    "Production-oriented AI nutrition platform combining Google Gemini multimodal food recognition with empirical ICMR-NIN IFCT & USDA databases and personalized context awareness.",
+    "Fast, intelligent AI nutrition platform combining real-time multimodal food recognition with empirical ICMR-NIN IFCT & USDA databases and personalized context awareness.",
 };
 
 export default function RootLayout({

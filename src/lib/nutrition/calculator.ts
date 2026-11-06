@@ -41,6 +41,25 @@ export interface MacroNutrients {
   fiberG: number;
 }
 
+export interface DetailedNutrition {
+  calories: number;
+  proteinG: number;
+  carbsG: number;
+  fatG: number;
+  saturatedFatG: number;
+  fiberG: number;
+  sugarG: number;
+  sodiumMg: number;
+  cholesterolMg: number;
+  potassiumMg: number;
+  calciumMg: number;
+  ironMg: number;
+  vitaminAMcg: number;
+  vitaminCMg: number;
+  vitaminDUg?: number;
+  vitaminB12Ug?: number;
+}
+
 /**
  * Calculates Basal Metabolic Rate using the validated Mifflin-St Jeor Equation.
  */
@@ -98,24 +117,15 @@ export function calculateDailyTargets(biometrics: UserBiometrics): NutritionTarg
   let targetCalories = tdee;
   const goal = biometrics.goalType || "maintenance";
 
-  switch (goal) {
-    case "weight_loss":
-      targetCalories = Math.max(1200, tdee - 500); // Safe minimum deficit
-      break;
-    case "weight_gain":
-      targetCalories = tdee + 400; // Controlled surplus
-      break;
-    case "muscle_building":
-      targetCalories = tdee + 250; // Lean mass gain
-      break;
-    case "maintenance":
-    case "general_health":
-    default:
-      targetCalories = tdee;
-      break;
+  if (goal === "weight_loss") {
+    targetCalories = Math.max(1200, tdee - 500); // 500 kcal deficit
+  } else if (goal === "weight_gain") {
+    targetCalories = tdee + 400; // 400 kcal surplus
+  } else if (goal === "muscle_building") {
+    targetCalories = tdee + 250;
   }
 
-  // Protein targets: higher for muscle building/weight loss preservation (1.8g/kg), 1.2g/kg standard
+  // Protein targets based on bodyweight and goal
   const proteinPerKg =
     goal === "muscle_building" || goal === "weight_loss" ? 1.8 : 1.2;
   const targetProteinG = Math.round(biometrics.weightKg * proteinPerKg);
@@ -143,7 +153,7 @@ export function calculateDailyTargets(biometrics: UserBiometrics): NutritionTarg
 }
 
 /**
- * Scales nutritional values per 100g to actual confirmed serving weight.
+ * Scales basic macronutrient values per 100g to actual confirmed serving weight.
  */
 export function scaleNutrients(
   per100g: MacroNutrients,
@@ -156,5 +166,33 @@ export function scaleNutrients(
     carbsG: Math.round(per100g.carbsG * factor * 10) / 10,
     fatG: Math.round(per100g.fatG * factor * 10) / 10,
     fiberG: Math.round(per100g.fiberG * factor * 10) / 10,
+  };
+}
+
+/**
+ * Scales full detailed nutrients (macros & micros) to actual weight in grams.
+ */
+export function scaleDetailedNutrition(
+  per100g: DetailedNutrition,
+  actualWeightG: number
+): DetailedNutrition {
+  const factor = Math.max(0, actualWeightG) / 100.0;
+  return {
+    calories: Math.round(per100g.calories * factor),
+    proteinG: Math.round(per100g.proteinG * factor * 10) / 10,
+    carbsG: Math.round(per100g.carbsG * factor * 10) / 10,
+    fatG: Math.round(per100g.fatG * factor * 10) / 10,
+    saturatedFatG: Math.round((per100g.saturatedFatG || 0) * factor * 10) / 10,
+    fiberG: Math.round((per100g.fiberG || 0) * factor * 10) / 10,
+    sugarG: Math.round((per100g.sugarG || 0) * factor * 10) / 10,
+    sodiumMg: Math.round((per100g.sodiumMg || 0) * factor),
+    cholesterolMg: Math.round((per100g.cholesterolMg || 0) * factor),
+    potassiumMg: Math.round((per100g.potassiumMg || 0) * factor),
+    calciumMg: Math.round((per100g.calciumMg || 0) * factor),
+    ironMg: Math.round((per100g.ironMg || 0) * factor * 10) / 10,
+    vitaminAMcg: Math.round((per100g.vitaminAMcg || 0) * factor),
+    vitaminCMg: Math.round((per100g.vitaminCMg || 0) * factor * 10) / 10,
+    vitaminDUg: per100g.vitaminDUg ? Math.round(per100g.vitaminDUg * factor * 10) / 10 : undefined,
+    vitaminB12Ug: per100g.vitaminB12Ug ? Math.round(per100g.vitaminB12Ug * factor * 10) / 10 : undefined,
   };
 }
