@@ -31,7 +31,7 @@ export interface AttachedFile {
 }
 
 interface ChatInputProps {
-  onSendMessage: (text: string, attachment?: AttachedFile) => void;
+  onSendMessage: (text: string, attachment?: AttachedFile, isVoice?: boolean) => void;
   onStopGeneration?: () => void;
   isLoading: boolean;
   disabled?: boolean;
@@ -45,7 +45,7 @@ export function ChatInput({
   onStopGeneration,
   isLoading,
   disabled,
-  selectedLanguage = "auto",
+  selectedLanguage = "tanglish",
   onLanguageChange,
   onOpenVoiceMode,
 }: ChatInputProps) {
@@ -56,6 +56,7 @@ export function ChatInput({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<any>(null);
+  const wasVoiceRef = useRef<boolean>(false);
 
   const currentLangConfig =
     SUPPORTED_VOICE_LANGUAGES.find((l) => l.id === selectedLanguage) ||
@@ -93,6 +94,8 @@ export function ChatInput({
       return;
     }
 
+    wasVoiceRef.current = true;
+
     const SpeechRecognition =
       (window as any).SpeechRecognition ||
       (window as any).webkitSpeechRecognition;
@@ -107,6 +110,7 @@ export function ChatInput({
     let baseText = input ? input.trim() + " " : "";
 
     recognition.onresult = (event: any) => {
+      wasVoiceRef.current = true;
       let currentSessionText = "";
       for (let i = 0; i < event.results.length; ++i) {
         currentSessionText += event.results[i][0].transcript;
@@ -155,7 +159,9 @@ export function ChatInput({
       stopVoiceInput();
     }
     if ((!input.trim() && !attachment) || isLoading || disabled) return;
-    onSendMessage(input.trim(), attachment || undefined);
+    const wasVoice = wasVoiceRef.current;
+    wasVoiceRef.current = false;
+    onSendMessage(input.trim(), attachment || undefined, wasVoice);
     setInput("");
     setAttachment(null);
     if (textareaRef.current) {

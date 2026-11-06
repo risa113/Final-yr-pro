@@ -134,9 +134,9 @@ export function Navbar() {
             className="flex items-center gap-2 p-1.5 text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
           >
             <div className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center justify-center">
-              AK
+              MT
             </div>
-            <span className="text-xs font-medium hidden md:inline">Arun Kumar</span>
+            <span className="text-xs font-medium hidden md:inline">Muhammed Thariq</span>
           </Link>
         </div>
       </div>

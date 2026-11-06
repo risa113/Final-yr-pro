@@ -15,7 +15,7 @@ export default function LoginPage() {
   const [showDemoFallback, setShowDemoFallback] = useState(false);
 
   const fillDemoCredentials = () => {
-    setEmail("arun.kumar@student.edu");
+    setEmail("muhammed.thariq@student.edu");
     setPassword("DemoPassword123!");
     setErrorMsg("");
     setShowDemoFallback(false);
@@ -26,8 +26,8 @@ export default function LoginPage() {
       localStorage.setItem(
         "nutri_user_session",
         JSON.stringify({
-          email: "arun.kumar@student.edu",
-          fullName: "Arun Kumar",
+          email: "muhammed.thariq@student.edu",
+          fullName: "Muhammed Thariq",
           role: "Student Researcher",
           isDemo: true,
         })
@@ -43,7 +43,11 @@ export default function LoginPage() {
     setShowDemoFallback(false);
 
     // If demo credentials or reviewer email entered, fast-track
-    if (email === "arun.kumar@student.edu" || email.toLowerCase().includes("demo")) {
+    if (
+      email === "muhammed.thariq@student.edu" ||
+      email.toLowerCase().includes("thariq") ||
+      email.toLowerCase().includes("demo")
+    ) {
       handleDemoAccess();
       setLoading(false);
       return;

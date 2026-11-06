@@ -25,8 +25,8 @@ import { createClient } from "@/lib/supabase/client";
 export default function SettingsPage() {
   const router = useRouter();
 
-  const [fullName, setFullName] = useState("Arun Kumar");
-  const [email, setEmail] = useState("arun.kumar@student.edu");
+  const [fullName, setFullName] = useState("Muhammed Thariq");
+  const [email, setEmail] = useState("muhammed.thariq@student.edu");
   const [age, setAge] = useState(22);
   const [gender, setGender] = useState<Gender>("male");
   const [heightCm, setHeightCm] = useState(175);

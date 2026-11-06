@@ -12,8 +12,8 @@ export async function GET(req: NextRequest) {
     if (!user) {
       // In guest or local mode, return default guest profile
       const defaultProfile = {
-        fullName: "Arun Kumar",
-        email: "arun.kumar@student.edu",
+        fullName: "Muhammed Thariq",
+        email: "muhammed.thariq@student.edu",
         age: 22,
         gender: "male" as Gender,
         heightCm: 175,

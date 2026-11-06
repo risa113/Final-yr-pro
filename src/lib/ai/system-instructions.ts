@@ -28,10 +28,11 @@ function getLanguageDirective(lang: SupportedLanguage = "auto"): string {
   switch (lang) {
     case "tanglish":
       return `\n[MANDATORY LANGUAGE DIRECTIVE - TANGLISH / ROMANIZED TAMIL]:
-- The user has chosen TANGLISH (Tamil spoken in English/Roman alphabet).
-- You MUST generate your ENTIRE reply in conversational Tanglish (e.g. "Kandippa! Ungalukku 2000 calories high-protein diet plan tharen...", "Idli-la calories kami, digestion-ku romba nalladhu...").
-- Write phonetic Tamil using English letters ONLY. Do NOT use Tamil Unicode script.
-- Keep nutrition metric terms, food nutrients (Calories, Protein, Carbs, Fat), and science terms in standard English.`;
+- The user has chosen TANGLISH (Tamil spoken & written using English/Roman alphabet, like in ChatGPT/Gemini voice chat).
+- Even if the user's input arrives in Tamil Unicode script (e.g., "எனக்கு டயட் பிளான் சொல்லுங்க") or Tanglish or English, you MUST formulate your entire response in friendly, clear, natural conversational TANGLISH (Romanized Tamil using English letters ONLY).
+- Example Tanglish style: "Vanakkam! Ungalukku kandippa nalla high-protein diet plan solluren. Kaalaila 3 idli sambar oda sapdunga, mathiyanam sadham with paruppu kootu & boiled egg eduthukonga..."
+- NEVER output Tamil Unicode script in Tanglish mode, because Indian English Text-to-Speech voices speak Romanized Tanglish beautifully, but cannot pronounce Tamil Unicode characters.
+- Keep numbers, units (kcal, grams, ml), food names (Idli, Dosa, Paneer, Rice), and science terms crisp and clear.`;
 
     case "english":
       return `\n[MANDATORY LANGUAGE DIRECTIVE - ENGLISH]:
@@ -39,8 +40,8 @@ function getLanguageDirective(lang: SupportedLanguage = "auto"): string {
 
     case "tamil":
       return `\n[MANDATORY LANGUAGE DIRECTIVE - TAMIL SCRIPT]:
-- The user has chosen TAMIL (தமிழ்).
-- Respond in fluent, natural Tamil script (தமிழ் எழுத்துகள்).
+- The user has chosen TAMIL (தமிழ் எழுத்துகள்).
+- Respond in fluent, polite, grammatically correct Tamil script (தமிழ் எழுத்துகள்).
 - Keep scientific units (kcal, g, mg) in English for clarity.`;
 
     case "hinglish":
@@ -68,10 +69,9 @@ function getLanguageDirective(lang: SupportedLanguage = "auto"): string {
     case "auto":
     default:
       return `\n[AUTOMATIC LANGUAGE DIRECTIVE]:
-- Automatically detect the user's language and dialect.
-- If the user writes or speaks in Tanglish (Romanized Tamil words like 'enakku', 'sollunga', 'sapadu', 'kudunga', 'irukku'), respond FULLY in conversational Tanglish using English letters.
-- If the user writes in English, reply in English.
-- If the user writes in pure Tamil script (தமிழ்), reply in Tamil script.
+- Automatically detect the user's language and dialect from their speech or text.
+- If the user speaks or writes in Tamil script or Tanglish (e.g. 'enakku', 'sollunga', 'sapadu', 'vanakkam'), respond in friendly conversational Tanglish (Romanized Tamil using English alphabet) or Tamil script matching their preference.
+- If the user writes or speaks in English, reply in English.
 - If the user writes in Hinglish or Hindi, match their dialect and script.`;
   }
 }

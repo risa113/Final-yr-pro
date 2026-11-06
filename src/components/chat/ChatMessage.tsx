@@ -27,6 +27,7 @@ export interface ChatMessageItem {
   sender: "user" | "assistant" | "system";
   text: string;
   timestamp: string;
+  isVoice?: boolean;
   domain?: string;
   mode?: "fast" | "deep";
   assistantName?: string;
@@ -138,6 +139,13 @@ export function ChatMessage({
               {isUser ? "You" : "Tarik AI"}
             </span>
             <span className="text-[11px]">&bull; {message.timestamp}</span>
+
+            {/* Voice Input Badge */}
+            {message.isVoice && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                🎙️ Voice Message
+              </span>
+            )}
 
             {/* Mode Pill (Fast vs Deep) */}
             {!isUser && message.mode && (

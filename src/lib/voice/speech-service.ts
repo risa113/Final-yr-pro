@@ -26,31 +26,13 @@ export interface VoiceLanguageConfig {
 
 export const SUPPORTED_VOICE_LANGUAGES: VoiceLanguageConfig[] = [
   {
-    id: "auto",
-    label: "Auto-Detect Language",
-    nativeLabel: "Auto-Predict (ChatGPT Style)",
-    sttLang: "en-IN",
-    ttsLang: "en-IN",
-    flag: "✨",
-    accentNote: "Predicts dialect automatically from speech",
-  },
-  {
     id: "tanglish",
     label: "Tanglish (Tamil in English)",
     nativeLabel: "தமிழ் Romanized",
-    sttLang: "en-IN",
-    ttsLang: "en-IN",
+    sttLang: "ta-IN", // Listens with native Tamil acoustic engine to prevent garbled English words
+    ttsLang: "en-IN", // Indian English voice pronounces Tanglish with natural Indian cadence
     flag: "🇮🇳",
-    accentNote: "Conversational Tamil written & spoken phonetically",
-  },
-  {
-    id: "english",
-    label: "English (Global / Indian)",
-    nativeLabel: "English",
-    sttLang: "en-US",
-    ttsLang: "en-US",
-    flag: "🌐",
-    accentNote: "Standard global English",
+    accentNote: "Speak in Tamil/Tanglish, replies in Romanized Tamil",
   },
   {
     id: "tamil",
@@ -62,10 +44,28 @@ export const SUPPORTED_VOICE_LANGUAGES: VoiceLanguageConfig[] = [
     accentNote: "Pure Tamil script & classical cadence",
   },
   {
+    id: "english",
+    label: "English (Global / Indian)",
+    nativeLabel: "English",
+    sttLang: "en-IN",
+    ttsLang: "en-IN",
+    flag: "🌐",
+    accentNote: "Standard global & Indian English conversation",
+  },
+  {
+    id: "auto",
+    label: "Auto-Detect Language",
+    nativeLabel: "Auto-Predict (ChatGPT Style)",
+    sttLang: "ta-IN",
+    ttsLang: "en-IN",
+    flag: "✨",
+    accentNote: "Auto predicts Tamil, Tanglish & English",
+  },
+  {
     id: "hinglish",
     label: "Hinglish (Hindi in English)",
     nativeLabel: "Hinglish",
-    sttLang: "en-IN",
+    sttLang: "hi-IN",
     ttsLang: "en-IN",
     flag: "🇮🇳",
     accentNote: "Colloquial Hindi written in English letters",
@@ -126,6 +126,8 @@ export function cleanTextForSpeech(text: string): string {
     .replace(/^\s*\d+\.\s+/gm, "")
     // Remove blockquotes
     .replace(/^\s*>\s+/gm, "")
+    // Remove emojis so synthetic voice does not stutter
+    .replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, "")
     // Replace multiple newlines or spaces
     .replace(/\n+/g, ". ")
     .replace(/\s+/g, " ")
@@ -158,6 +160,14 @@ class SpeechSynthesizer {
   private currentUtterance: SpeechSynthesisUtterance | null = null;
   private onEndCallbacks: Set<() => void> = new Set();
 
+  constructor() {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.onvoiceschanged = () => {
+        // Pre-warm browser voice list
+      };
+    }
+  }
+
   public speak(
     text: string,
     lang: VoiceLanguageId = "auto",
@@ -183,41 +193,63 @@ class SpeechSynthesizer {
       SUPPORTED_VOICE_LANGUAGES.find((l) => l.id === lang) ||
       SUPPORTED_VOICE_LANGUAGES[0];
 
-    utterance.lang = config.ttsLang;
-    utterance.rate = options.rate ?? (lang === "tanglish" ? 1.05 : 1.0);
-    utterance.pitch = options.pitch ?? 1.0;
+    const hasTamilUnicode = /[\u0B80-\u0BFF]/.test(clean);
+    const hasHindiUnicode = /[\u0900-\u097F]/.test(clean);
+    const hasMalayalamUnicode = /[\u0D00-\u0D7F]/.test(clean);
+    const hasTeluguUnicode = /[\u0C00-\u0C7F]/.test(clean);
 
     // Pick best matching system voice
     const voices = window.speechSynthesis.getVoices();
-    if (voices.length > 0) {
-      let chosenVoice: SpeechSynthesisVoice | undefined;
+    let chosenVoice: SpeechSynthesisVoice | undefined;
 
-      if (lang === "tanglish" || lang === "auto") {
-        // Indian English voice sounds ideal for Tanglish pronunciation
-        chosenVoice =
-          voices.find(
-            (v) =>
-              (v.lang.includes("en-IN") || v.name.toLowerCase().includes("india") || v.name.toLowerCase().includes("tamil")) &&
-              !v.name.toLowerCase().includes("offline")
-          ) ||
-          voices.find((v) => v.lang.includes("en-IN")) ||
-          voices.find((v) => v.lang.startsWith("en"));
-      } else if (lang === "tamil") {
-        chosenVoice =
-          voices.find((v) => v.lang.includes("ta") || v.name.toLowerCase().includes("tamil")) ||
-          voices.find((v) => v.lang.includes("en-IN"));
-      } else if (lang === "hindi" || lang === "hinglish") {
-        chosenVoice =
-          voices.find((v) => v.lang.includes("hi") || v.name.toLowerCase().includes("hindi")) ||
-          voices.find((v) => v.lang.includes("en-IN"));
-      } else {
-        chosenVoice = voices.find((v) => v.lang.startsWith(config.ttsLang.slice(0, 2)));
-      }
-
-      if (chosenVoice) {
-        utterance.voice = chosenVoice;
-      }
+    if (hasTamilUnicode || lang === "tamil") {
+      utterance.lang = "ta-IN";
+      chosenVoice =
+        voices.find((v) => v.lang.replace("_", "-").toLowerCase().startsWith("ta")) ||
+        voices.find((v) => v.name.toLowerCase().includes("tamil")) ||
+        voices.find((v) => v.lang.includes("en-IN"));
+    } else if (hasHindiUnicode || lang === "hindi") {
+      utterance.lang = "hi-IN";
+      chosenVoice =
+        voices.find((v) => v.lang.replace("_", "-").toLowerCase().startsWith("hi")) ||
+        voices.find((v) => v.name.toLowerCase().includes("hindi")) ||
+        voices.find((v) => v.lang.includes("en-IN"));
+    } else if (hasMalayalamUnicode || lang === "malayalam") {
+      utterance.lang = "ml-IN";
+      chosenVoice =
+        voices.find((v) => v.lang.replace("_", "-").toLowerCase().startsWith("ml")) ||
+        voices.find((v) => v.lang.includes("en-IN"));
+    } else if (hasTeluguUnicode || lang === "telugu") {
+      utterance.lang = "te-IN";
+      chosenVoice =
+        voices.find((v) => v.lang.replace("_", "-").toLowerCase().startsWith("te")) ||
+        voices.find((v) => v.lang.includes("en-IN"));
+    } else if (lang === "tanglish" || lang === "auto" || lang === "hinglish") {
+      // Indian English voice sounds ideal for Tanglish / Romanized Tamil
+      utterance.lang = "en-IN";
+      chosenVoice =
+        voices.find(
+          (v) =>
+            (v.lang.replace("_", "-").toLowerCase().includes("en-in") ||
+              v.name.toLowerCase().includes("india") ||
+              v.name.toLowerCase().includes("heera") ||
+              v.name.toLowerCase().includes("ravi") ||
+              v.name.toLowerCase().includes("neerja")) &&
+            !v.name.toLowerCase().includes("offline")
+        ) ||
+        voices.find((v) => v.lang.replace("_", "-").toLowerCase().includes("en-in")) ||
+        voices.find((v) => v.lang.startsWith("en"));
+    } else {
+      utterance.lang = config.ttsLang;
+      chosenVoice = voices.find((v) => v.lang.startsWith(config.ttsLang.slice(0, 2)));
     }
+
+    if (chosenVoice) {
+      utterance.voice = chosenVoice;
+    }
+
+    utterance.rate = options.rate ?? (lang === "tanglish" ? 1.05 : 1.0);
+    utterance.pitch = options.pitch ?? 1.0;
 
     utterance.onend = () => {
       this.currentUtterance = null;

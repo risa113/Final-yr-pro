@@ -94,11 +94,11 @@ export function Sidebar() {
       <div className="pt-4 border-t border-slate-200">
         <div className="flex items-center gap-3 px-2">
           <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-500 text-white font-bold text-xs flex items-center justify-center shadow-sm">
-            AK
+            MT
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-slate-800 truncate">Arun Kumar</p>
-            <p className="text-[11px] text-slate-500 truncate">B.Tech AI & DS</p>
+            <p className="text-xs font-semibold text-slate-800 truncate">Muhammed Thariq</p>
+            <p className="text-[11px] text-slate-500 truncate">B.Tech AI &amp; DS</p>
           </div>
         </div>
       </div>

@@ -53,7 +53,7 @@ export function ChatContainer() {
   const [currentStreamingId, setCurrentStreamingId] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [errorNotice, setErrorNotice] = useState("");
-  const [selectedLanguage, setSelectedLanguage] = useState<VoiceLanguageId>("auto");
+  const [selectedLanguage, setSelectedLanguage] = useState<VoiceLanguageId>("tanglish");
   const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
   const [autoSpeakReplies, setAutoSpeakReplies] = useState(false);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -101,7 +101,7 @@ export function ChatContainer() {
 
   // User Nutrition Profile snapshot for contextual queries
   const userNutritionContext = {
-    userName: "Arun Kumar",
+    userName: "Muhammed Thariq",
     age: 22,
     gender: "male",
     weightKg: 70,
@@ -294,7 +294,11 @@ I have loaded this meal into your active nutritional budget. How can I help you?
   };
 
   // Send Message with High-Speed Progressive SSE Streaming
-  const handleSendMessage = async (text: string, attachment?: AttachedFile) => {
+  const handleSendMessage = async (
+    text: string,
+    attachment?: AttachedFile,
+    isVoiceInput: boolean = false
+  ) => {
     if ((!text.trim() && !attachment) || isLoading) return;
 
     setErrorNotice("");
@@ -304,6 +308,7 @@ I have loaded this meal into your active nutritional budget. How can I help you?
       sender: "user",
       text,
       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      isVoice: isVoiceInput,
       attachment: attachment
         ? {
             type: attachment.type,
@@ -428,7 +433,8 @@ I have loaded this meal into your active nutritional budget. How can I help you?
                   )
                 );
 
-                if (autoSpeakReplies && accumulatedText) {
+                const shouldSpeak = isVoiceInput || autoSpeakReplies;
+                if (shouldSpeak && accumulatedText) {
                   speechSynthesizer.speak(accumulatedText, selectedLanguage);
                 }
               } else if (eventData.type === "error") {

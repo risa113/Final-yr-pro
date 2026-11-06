@@ -24,7 +24,7 @@ Retrieves authenticated user's profile and dietary preferences.
   "profile": {
     "id": "c1f7b889-1064-4e4b-936d-9bebeae25816",
     "email": "user@example.com",
-    "full_name": "Arun Kumar",
+    "full_name": "Muhammed Thariq",
     "age": 22,
     "gender": "male",
     "height_cm": 175.0,
@@ -54,7 +54,7 @@ Updates profile biometrics and recalculates BMR/TDEE targets.
 - **Body**:
 ```json
 {
-  "full_name": "Arun Kumar",
+  "full_name": "Muhammed Thariq",
   "age": 22,
   "gender": "male",
   "height_cm": 175,
