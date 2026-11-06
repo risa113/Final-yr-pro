@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
+import { MobileNav } from "@/components/layout/MobileNav";
 import { StatusBanner } from "@/components/ui/StatusBanner";
 import { getDefaultGeminiApiKey } from "@/lib/utils";
 
@@ -14,6 +15,14 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: "#059669",
+};
 
 export const metadata: Metadata = {
   title: "Tarik AI Nutrition Chatbot – Context-Aware AI Food & Nutrition Platform",
@@ -52,7 +61,8 @@ export default function RootLayout({
           hasUsdaKey={hasUsda}
         />
         <Navbar />
-        <main className="flex-1 flex flex-col">{children}</main>
+        <main className="flex-1 flex flex-col min-w-0 max-w-full overflow-x-hidden">{children}</main>
+        <MobileNav />
       </body>
     </html>
   );

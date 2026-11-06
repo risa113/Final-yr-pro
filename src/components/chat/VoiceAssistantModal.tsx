@@ -210,13 +210,13 @@ export function VoiceAssistantModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xl animate-in fade-in duration-200">
-      <div className="relative w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 sm:p-8 flex flex-col items-center text-center text-white overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 bg-slate-950/80 backdrop-blur-xl animate-in fade-in duration-200">
+      <div className="relative w-full h-full sm:h-auto sm:max-w-xl bg-slate-900 border-0 sm:border border-slate-800 rounded-none sm:rounded-3xl shadow-2xl p-4 sm:p-8 flex flex-col justify-between sm:justify-center items-center text-center text-white overflow-hidden">
         {/* Background glow orb */}
         <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
 
         {/* Top Controls: Language Switcher & Close */}
-        <div className="w-full flex items-center justify-between z-10 mb-6">
+        <div className="w-full flex items-center justify-between z-10 mb-2 sm:mb-6 pt-2 sm:pt-0">
           {/* Language Selector Dropdown */}
           <div className="relative">
             <button

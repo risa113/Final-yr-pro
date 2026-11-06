@@ -96,48 +96,48 @@ export default function AnalyticsPage() {
       </div>
 
       {/* SUMMARY STATS TILES */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div className="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between text-slate-500 mb-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Avg Daily Intake</span>
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">Avg Intake</span>
             <Flame className="w-4 h-4 text-emerald-600" />
           </div>
-          <p className="text-2xl font-extrabold text-slate-900">2,388</p>
-          <span className="text-[11px] text-emerald-600 font-semibold">97.4% adherence</span>
+          <p className="text-xl sm:text-2xl font-extrabold text-slate-900">2,388</p>
+          <span className="text-[10px] sm:text-[11px] text-emerald-600 font-semibold">97.4% adherence</span>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+        <div className="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between text-slate-500 mb-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Protein Consistency</span>
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">Protein</span>
             <Award className="w-4 h-4 text-indigo-600" />
           </div>
-          <p className="text-2xl font-extrabold text-slate-900">128g</p>
-          <span className="text-[11px] text-slate-500">Target: 135g / day</span>
+          <p className="text-xl sm:text-2xl font-extrabold text-slate-900">128g</p>
+          <span className="text-[10px] sm:text-[11px] text-slate-500">Target: 135g / day</span>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+        <div className="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between text-slate-500 mb-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Weight Change</span>
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">Weight</span>
             <Scale className="w-4 h-4 text-blue-600" />
           </div>
-          <p className="text-2xl font-extrabold text-slate-900">-2.4 kg</p>
-          <span className="text-[11px] text-emerald-600 font-semibold">Healthy linear rate</span>
+          <p className="text-xl sm:text-2xl font-extrabold text-slate-900">-2.4 kg</p>
+          <span className="text-[10px] sm:text-[11px] text-emerald-600 font-semibold">Healthy linear rate</span>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+        <div className="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between text-slate-500 mb-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Logging Streak</span>
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">Streak</span>
             <Sparkles className="w-4 h-4 text-amber-500" />
           </div>
-          <p className="text-2xl font-extrabold text-slate-900">7 Days</p>
-          <span className="text-[11px] text-amber-600 font-semibold">Active consistency</span>
+          <p className="text-xl sm:text-2xl font-extrabold text-slate-900">7 Days</p>
+          <span className="text-[10px] sm:text-[11px] text-amber-600 font-semibold">Active consistency</span>
         </div>
       </div>
 
       {/* CHARTS ROW 1: 7-DAY CALORIES & MACRO DONUT */}
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Calorie Trend Bar Chart (2 Cols) */}
-        <div className="lg:col-span-2 bg-white p-6 rounded-3xl border border-slate-200 shadow-xs">
+        <div className="lg:col-span-2 bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-xs">
           <h2 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-emerald-600" />
             <span>Calorie Consumption vs Target Ceiling</span>

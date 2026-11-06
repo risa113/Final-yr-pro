@@ -73,8 +73,8 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 bg-slate-50">
-      <div className="w-full max-w-md bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
+    <div className="min-h-[calc(100dvh-4rem)] flex items-center justify-center p-3 sm:p-4 bg-slate-50">
+      <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-sm">
         <div className="text-center mb-8">
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 text-white flex items-center justify-center mx-auto mb-4 shadow-md shadow-emerald-500/20">
             <Sparkles className="w-6 h-6" />

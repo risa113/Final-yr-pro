@@ -174,118 +174,118 @@ export default function DashboardPage() {
       </div>
 
       {/* CORE CARDS GRID: CALORIES & MACROS */}
-      <div className="grid md:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {/* Calorie Card */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between text-slate-500 mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider">Daily Calories</span>
+            <div className="flex items-center justify-between text-slate-500 mb-1.5 sm:mb-2">
+              <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider">Calories</span>
               <Flame className="w-4 h-4 text-rose-500" />
             </div>
-            <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-3xl font-extrabold text-slate-900">{consumedCalories}</span>
-              <span className="text-xs text-slate-400">/ {targetCalories} kcal</span>
+            <div className="flex items-baseline gap-1 mt-0.5">
+              <span className="text-2xl sm:text-3xl font-extrabold text-slate-900">{consumedCalories}</span>
+              <span className="text-[10px] sm:text-xs text-slate-400">/ {targetCalories}</span>
             </div>
-            <p className="text-xs text-emerald-600 font-semibold mt-1">
-              {remainingCalories} kcal remaining
+            <p className="text-[11px] sm:text-xs text-emerald-600 font-semibold mt-1">
+              {remainingCalories} kcal left
             </p>
           </div>
 
-          <div className="mt-4">
-            <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+          <div className="mt-3 sm:mt-4">
+            <div className="w-full bg-slate-100 h-2 sm:h-2.5 rounded-full overflow-hidden">
               <div
                 className="bg-emerald-600 h-full rounded-full transition-all duration-500"
                 style={{ width: `${caloriePercentage}%` }}
               ></div>
             </div>
-            <span className="text-[11px] text-slate-400 mt-1.5 block text-right">
-              {caloriePercentage}% of goal
+            <span className="text-[10px] sm:text-[11px] text-slate-400 mt-1 block text-right">
+              {caloriePercentage}%
             </span>
           </div>
         </div>
 
         {/* Protein Card */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between text-slate-500 mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider">Protein</span>
+            <div className="flex items-center justify-between text-slate-500 mb-1.5 sm:mb-2">
+              <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider">Protein</span>
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
             </div>
-            <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-3xl font-extrabold text-slate-900">{Math.round(consumedProtein)}</span>
-              <span className="text-xs text-slate-400">/ {targetProtein}g</span>
+            <div className="flex items-baseline gap-1 mt-0.5">
+              <span className="text-2xl sm:text-3xl font-extrabold text-slate-900">{Math.round(consumedProtein)}</span>
+              <span className="text-[10px] sm:text-xs text-slate-400">/ {targetProtein}g</span>
             </div>
-            <p className="text-xs text-slate-500 font-medium mt-1">
-              {Math.max(0, targetProtein - Math.round(consumedProtein))}g to target
+            <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-1">
+              {Math.max(0, targetProtein - Math.round(consumedProtein))}g to go
             </p>
           </div>
 
-          <div className="mt-4">
-            <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+          <div className="mt-3 sm:mt-4">
+            <div className="w-full bg-slate-100 h-2 sm:h-2.5 rounded-full overflow-hidden">
               <div
                 className="bg-emerald-500 h-full rounded-full transition-all duration-500"
                 style={{ width: `${Math.min(100, Math.round((consumedProtein / targetProtein) * 100))}%` }}
               ></div>
             </div>
-            <span className="text-[11px] text-slate-400 mt-1.5 block text-right">
+            <span className="text-[10px] sm:text-[11px] text-slate-400 mt-1 block text-right">
               {Math.round((consumedProtein / targetProtein) * 100)}%
             </span>
           </div>
         </div>
 
         {/* Carbs Card */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between text-slate-500 mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider">Carbs</span>
+            <div className="flex items-center justify-between text-slate-500 mb-1.5 sm:mb-2">
+              <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider">Carbs</span>
               <span className="w-2.5 h-2.5 rounded-full bg-teal-500"></span>
             </div>
-            <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-3xl font-extrabold text-slate-900">{Math.round(consumedCarbs)}</span>
-              <span className="text-xs text-slate-400">/ {targetCarbs}g</span>
+            <div className="flex items-baseline gap-1 mt-0.5">
+              <span className="text-2xl sm:text-3xl font-extrabold text-slate-900">{Math.round(consumedCarbs)}</span>
+              <span className="text-[10px] sm:text-xs text-slate-400">/ {targetCarbs}g</span>
             </div>
-            <p className="text-xs text-slate-500 font-medium mt-1">
-              {Math.max(0, targetCarbs - Math.round(consumedCarbs))}g to target
+            <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-1">
+              {Math.max(0, targetCarbs - Math.round(consumedCarbs))}g to go
             </p>
           </div>
 
-          <div className="mt-4">
-            <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+          <div className="mt-3 sm:mt-4">
+            <div className="w-full bg-slate-100 h-2 sm:h-2.5 rounded-full overflow-hidden">
               <div
                 className="bg-teal-500 h-full rounded-full transition-all duration-500"
                 style={{ width: `${Math.min(100, Math.round((consumedCarbs / targetCarbs) * 100))}%` }}
               ></div>
             </div>
-            <span className="text-[11px] text-slate-400 mt-1.5 block text-right">
+            <span className="text-[10px] sm:text-[11px] text-slate-400 mt-1 block text-right">
               {Math.round((consumedCarbs / targetCarbs) * 100)}%
             </span>
           </div>
         </div>
 
         {/* Fat Card */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between text-slate-500 mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider">Fat</span>
+            <div className="flex items-center justify-between text-slate-500 mb-1.5 sm:mb-2">
+              <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider">Fat</span>
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
             </div>
-            <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-3xl font-extrabold text-slate-900">{Math.round(consumedFat)}</span>
-              <span className="text-xs text-slate-400">/ {targetFat}g</span>
+            <div className="flex items-baseline gap-1 mt-0.5">
+              <span className="text-2xl sm:text-3xl font-extrabold text-slate-900">{Math.round(consumedFat)}</span>
+              <span className="text-[10px] sm:text-xs text-slate-400">/ {targetFat}g</span>
             </div>
-            <p className="text-xs text-slate-500 font-medium mt-1">
-              {Math.max(0, targetFat - Math.round(consumedFat))}g to target
+            <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-1">
+              {Math.max(0, targetFat - Math.round(consumedFat))}g to go
             </p>
           </div>
 
-          <div className="mt-4">
-            <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+          <div className="mt-3 sm:mt-4">
+            <div className="w-full bg-slate-100 h-2 sm:h-2.5 rounded-full overflow-hidden">
               <div
                 className="bg-amber-500 h-full rounded-full transition-all duration-500"
                 style={{ width: `${Math.min(100, Math.round((consumedFat / targetFat) * 100))}%` }}
               ></div>
             </div>
-            <span className="text-[11px] text-slate-400 mt-1.5 block text-right">
+            <span className="text-[10px] sm:text-[11px] text-slate-400 mt-1 block text-right">
               {Math.round((consumedFat / targetFat) * 100)}%
             </span>
           </div>

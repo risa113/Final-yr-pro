@@ -28,24 +28,24 @@ export default function LandingPage() {
             <span>Final Year B.Tech Project – AI & Data Science</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight max-w-4xl mx-auto leading-tight sm:leading-none">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight max-w-4xl mx-auto leading-tight sm:leading-tight">
             Context-Aware AI Food &{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
               Nutrition Assistant
             </span>
           </h1>
 
-          <p className="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-4 sm:mt-6 text-base sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Eliminating manual calorie counting friction through Google Gemini
             multimodal vision, backed by empirical ICMR-NIN Indian Food
             Composition Tables and personalized biometric context.
           </p>
 
           {/* Action CTAs */}
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 w-full max-w-xl mx-auto">
             <Link
               href="/assistant?mode=voice"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white font-semibold px-6 py-3.5 rounded-xl shadow-lg shadow-emerald-500/25 transition-all text-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white font-semibold px-6 py-3.5 rounded-xl shadow-lg shadow-emerald-500/25 transition-all text-sm"
             >
               <Radio className="w-4 h-4 animate-pulse text-emerald-200" />
               <span>Live Voice Assistant</span>
@@ -53,7 +53,7 @@ export default function LandingPage() {
 
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-semibold px-6 py-3.5 rounded-xl border border-slate-200 shadow-sm transition-all text-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-semibold px-6 py-3.5 rounded-xl border border-slate-200 shadow-sm transition-all text-sm"
             >
               <span>Explore Dashboard</span>
               <ArrowRight className="w-4 h-4" />
@@ -61,7 +61,7 @@ export default function LandingPage() {
 
             <Link
               href="/scanner"
-              className="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-semibold px-6 py-3.5 rounded-xl border border-slate-200 shadow-sm transition-all text-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-semibold px-6 py-3.5 rounded-xl border border-slate-200 shadow-sm transition-all text-sm"
             >
               <Camera className="w-4 h-4 text-emerald-600" />
               <span>AI Food Scanner</span>
@@ -69,30 +69,30 @@ export default function LandingPage() {
 
             <Link
               href="/assistant"
-              className="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-6 py-3.5 rounded-xl border border-indigo-200 transition-all text-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-6 py-3.5 rounded-xl border border-indigo-200 transition-all text-sm"
             >
               <Bot className="w-4 h-4 text-indigo-600" />
-              <span>Tarik AI Nutrition Chatbot</span>
+              <span>Tarik AI Chatbot</span>
             </Link>
           </div>
 
           {/* Core Metrics Pill */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-              <p className="text-2xl font-bold text-slate-900">100+</p>
-              <p className="text-xs text-slate-500 font-medium mt-1">Verified Indian Dishes (IFCT)</p>
+          <div className="mt-12 sm:mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
+            <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <p className="text-xl sm:text-2xl font-bold text-slate-900">100+</p>
+              <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-1">Verified Indian Dishes (IFCT)</p>
             </div>
-            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-              <p className="text-2xl font-bold text-emerald-600">Gemini AI</p>
-              <p className="text-xs text-slate-500 font-medium mt-1">Multimodal Vision Pipeline</p>
+            <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <p className="text-xl sm:text-2xl font-bold text-emerald-600">Gemini AI</p>
+              <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-1">Multimodal Vision Pipeline</p>
             </div>
-            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-              <p className="text-2xl font-bold text-slate-900">Mifflin-St Jeor</p>
-              <p className="text-xs text-slate-500 font-medium mt-1">Validated BMR Formulation</p>
+            <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <p className="text-xl sm:text-2xl font-bold text-slate-900">Mifflin-St Jeor</p>
+              <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-1">Validated BMR Formulation</p>
             </div>
-            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-              <p className="text-2xl font-bold text-indigo-600">PostgreSQL RLS</p>
-              <p className="text-xs text-slate-500 font-medium mt-1">Multi-Tenant Data Privacy</p>
+            <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <p className="text-xl sm:text-2xl font-bold text-indigo-600">PostgreSQL RLS</p>
+              <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-1">Multi-Tenant Data Privacy</p>
             </div>
           </div>
         </div>

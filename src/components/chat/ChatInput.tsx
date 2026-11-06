@@ -208,23 +208,23 @@ export function ChatInput({
   };
 
   return (
-    <div className="p-3 sm:p-4 bg-white border-t border-slate-200">
+    <div className="p-2 sm:p-4 bg-white border-t border-slate-200">
       <div className="max-w-4xl mx-auto space-y-2">
         {/* Attachment Preview Chip */}
         {attachment && (
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-xs text-slate-800 shadow-xs">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-xs text-slate-800 shadow-xs max-w-full overflow-hidden">
             {attachment.type === "image" ? (
-              <ImageIcon className="w-4 h-4 text-emerald-600" />
+              <ImageIcon className="w-4 h-4 text-emerald-600 flex-shrink-0" />
             ) : (
-              <FileText className="w-4 h-4 text-indigo-600" />
+              <FileText className="w-4 h-4 text-indigo-600 flex-shrink-0" />
             )}
-            <span className="font-medium max-w-xs truncate">{attachment.name}</span>
-            <span className="text-[10px] text-slate-400 font-mono">
+            <span className="font-medium truncate max-w-[160px] sm:max-w-xs">{attachment.name}</span>
+            <span className="text-[10px] text-slate-400 font-mono flex-shrink-0">
               ({(attachment.sizeBytes / 1024).toFixed(1)} KB)
             </span>
             <button
               onClick={() => setAttachment(null)}
-              className="p-1 rounded-full text-slate-400 hover:text-red-500 hover:bg-slate-200 transition-colors cursor-pointer"
+              className="p-1 rounded-full text-slate-400 hover:text-red-500 hover:bg-slate-200 transition-colors cursor-pointer flex-shrink-0"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -232,7 +232,7 @@ export function ChatInput({
         )}
 
         {/* Language Bar & Live Voice Launcher */}
-        <div className="flex items-center justify-between gap-2 px-1 text-xs">
+        <div className="flex items-center justify-between gap-1.5 px-0.5 text-xs">
           {/* Language Selector Dropdown */}
           <div className="relative">
             <button
@@ -241,11 +241,11 @@ export function ChatInput({
               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 text-[11px] font-semibold text-slate-700 transition-colors cursor-pointer"
               title="Change spoken and reply language"
             >
-              <Globe className="w-3 h-3 text-emerald-600" />
-              <span>
+              <Globe className="w-3 h-3 text-emerald-600 flex-shrink-0" />
+              <span className="truncate max-w-[120px] sm:max-w-none">
                 {currentLangConfig.flag} {currentLangConfig.nativeLabel}
               </span>
-              <ChevronDown className="w-3 h-3 text-slate-400" />
+              <ChevronDown className="w-3 h-3 text-slate-400 flex-shrink-0" />
             </button>
 
             {showLangMenu && (
@@ -287,16 +287,16 @@ export function ChatInput({
             <button
               type="button"
               onClick={onOpenVoiceMode}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-[11px] font-semibold shadow-xs transition-all cursor-pointer"
+              className="inline-flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-[11px] font-semibold shadow-xs transition-all cursor-pointer flex-shrink-0"
             >
               <Radio className="w-3 h-3 animate-pulse" />
-              <span>Live Voice Mode</span>
+              <span>Live Voice</span>
             </button>
           )}
         </div>
 
         {/* Input Box */}
-        <div className="relative flex items-end gap-2 bg-slate-50 border border-slate-300 rounded-2xl p-2 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all shadow-xs">
+        <div className="relative flex items-end gap-1.5 sm:gap-2 bg-slate-50 border border-slate-300 rounded-2xl p-1.5 sm:p-2 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all shadow-xs">
           {/* File Attachment Button */}
           <button
             type="button"
@@ -343,7 +343,7 @@ export function ChatInput({
             }
             rows={1}
             disabled={disabled}
-            className="flex-1 bg-transparent border-0 resize-none py-2 px-1 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none max-h-44 leading-relaxed"
+            className="flex-1 bg-transparent border-0 resize-none py-1.5 sm:py-2 px-1 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none max-h-36 sm:max-h-44 leading-relaxed"
           />
 
           {/* Action Button: Stop or Send */}
@@ -351,35 +351,35 @@ export function ChatInput({
             <button
               type="button"
               onClick={onStopGeneration}
-              className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white flex-shrink-0 transition-all cursor-pointer shadow-sm"
+              className="p-2 sm:p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white flex-shrink-0 transition-all cursor-pointer shadow-sm"
               title="Stop generation"
             >
-              <Square className="w-4 h-4 fill-current text-white" />
+              <Square className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current text-white" />
             </button>
           ) : (
             <button
               type="button"
               onClick={handleSubmit}
               disabled={(!input.trim() && !attachment) || disabled}
-              className="p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 disabled:hover:bg-emerald-600 text-white flex-shrink-0 transition-all cursor-pointer shadow-sm shadow-emerald-600/20"
+              className="p-2 sm:p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 disabled:hover:bg-emerald-600 text-white flex-shrink-0 transition-all cursor-pointer shadow-sm shadow-emerald-600/20"
               title="Send message"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           )}
         </div>
 
-        <div className="flex items-center justify-between text-[11px] text-slate-400 px-1">
+        <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-400 px-1">
           <span>
             {isRecording ? (
               <span className="text-red-600 font-medium animate-pulse flex items-center gap-1">
                 ● Listening now ({currentLangConfig.label})...
               </span>
             ) : (
-              "Shift + Enter for new line • Mic button for voice input"
+              "Tap mic to talk • Press Enter to send"
             )}
           </span>
-          <span>Tarik AI Nutrition Assistant</span>
+          <span className="hidden sm:inline">Tarik AI Nutrition Assistant</span>
         </div>
       </div>
     </div>

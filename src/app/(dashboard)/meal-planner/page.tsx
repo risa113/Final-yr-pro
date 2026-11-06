@@ -175,7 +175,7 @@ export default function MealPlannerPage() {
       </div>
 
       {/* DAY TARGETS BANNER */}
-      <div className="bg-emerald-950 text-white p-6 rounded-3xl shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-emerald-950 text-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider block">
             {activePlanDay} Planned Targets
@@ -186,7 +186,7 @@ export default function MealPlannerPage() {
           </div>
         </div>
 
-        <div className="flex gap-6 text-xs text-slate-300 border-t sm:border-t-0 sm:border-l border-emerald-800/80 pt-3 sm:pt-0 sm:pl-6">
+        <div className="flex gap-4 sm:gap-6 text-xs text-slate-300 border-t sm:border-t-0 sm:border-l border-emerald-800/80 pt-3 sm:pt-0 sm:pl-6 justify-between sm:justify-start">
           <div>
             <span className="text-slate-400 block">Protein</span>
             <span className="text-base font-bold text-emerald-400">{totalDayProtein}g</span>
@@ -207,7 +207,7 @@ export default function MealPlannerPage() {
         {plannedMeals.map((meal) => (
           <div
             key={meal.id}
-            className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between"
+            className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between mb-3">

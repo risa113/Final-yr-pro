@@ -155,25 +155,25 @@ export default function FoodDiaryPage() {
       </div>
 
       {/* DAILY BUDGET SUMMARY BAR */}
-      <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs grid sm:grid-cols-4 gap-4 divide-y sm:divide-y-0 sm:divide-x divide-slate-100 text-center">
-        <div className="pt-2 sm:pt-0">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+      <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-xs grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 divide-y-0 sm:divide-x divide-slate-100 text-center">
+        <div className="p-2 sm:p-0">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5 sm:mb-1">
             Energy Intake
           </span>
-          <span className="text-2xl font-extrabold text-slate-900">{totalCalories}</span>
-          <span className="text-xs text-slate-400 ml-1">/ {targetCalories} kcal</span>
-          <p className="text-[11px] text-emerald-600 font-semibold mt-1">
+          <span className="text-xl sm:text-2xl font-extrabold text-slate-900">{totalCalories}</span>
+          <span className="text-[10px] sm:text-xs text-slate-400 ml-1">/ {targetCalories} kcal</span>
+          <p className="text-[10px] sm:text-[11px] text-emerald-600 font-semibold mt-0.5">
             {Math.max(0, targetCalories - totalCalories)} kcal left
           </p>
         </div>
 
-        <div className="pt-2 sm:pt-0 sm:pl-4">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+        <div className="p-2 sm:p-0 sm:pl-4">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5 sm:mb-1">
             Protein
           </span>
-          <span className="text-2xl font-extrabold text-slate-900">{totalProtein}</span>
-          <span className="text-xs text-slate-400 ml-1">/ {targetProtein}g</span>
-          <div className="w-20 mx-auto bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
+          <span className="text-xl sm:text-2xl font-extrabold text-slate-900">{totalProtein}</span>
+          <span className="text-[10px] sm:text-xs text-slate-400 ml-1">/ {targetProtein}g</span>
+          <div className="w-16 sm:w-20 mx-auto bg-slate-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
             <div
               className="bg-emerald-500 h-full rounded-full"
               style={{ width: `${Math.min(100, (totalProtein / targetProtein) * 100)}%` }}
@@ -181,13 +181,13 @@ export default function FoodDiaryPage() {
           </div>
         </div>
 
-        <div className="pt-2 sm:pt-0 sm:pl-4">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+        <div className="p-2 sm:p-0 sm:pl-4">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5 sm:mb-1">
             Carbohydrates
           </span>
-          <span className="text-2xl font-extrabold text-slate-900">{totalCarbs}</span>
-          <span className="text-xs text-slate-400 ml-1">/ {targetCarbs}g</span>
-          <div className="w-20 mx-auto bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
+          <span className="text-xl sm:text-2xl font-extrabold text-slate-900">{totalCarbs}</span>
+          <span className="text-[10px] sm:text-xs text-slate-400 ml-1">/ {targetCarbs}g</span>
+          <div className="w-16 sm:w-20 mx-auto bg-slate-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
             <div
               className="bg-teal-500 h-full rounded-full"
               style={{ width: `${Math.min(100, (totalCarbs / targetCarbs) * 100)}%` }}
@@ -195,13 +195,13 @@ export default function FoodDiaryPage() {
           </div>
         </div>
 
-        <div className="pt-2 sm:pt-0 sm:pl-4">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+        <div className="p-2 sm:p-0 sm:pl-4">
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5 sm:mb-1">
             Fats
           </span>
-          <span className="text-2xl font-extrabold text-slate-900">{totalFat}</span>
-          <span className="text-xs text-slate-400 ml-1">/ {targetFat}g</span>
-          <div className="w-20 mx-auto bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
+          <span className="text-xl sm:text-2xl font-extrabold text-slate-900">{totalFat}</span>
+          <span className="text-[10px] sm:text-xs text-slate-400 ml-1">/ {targetFat}g</span>
+          <div className="w-16 sm:w-20 mx-auto bg-slate-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
             <div
               className="bg-amber-500 h-full rounded-full"
               style={{ width: `${Math.min(100, (totalFat / targetFat) * 100)}%` }}

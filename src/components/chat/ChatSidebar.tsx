@@ -97,66 +97,87 @@ export function ChatSidebar({
     );
   }
 
+  const handleSelect = (id: string) => {
+    onSelectConversation(id);
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+      onToggle();
+    }
+  };
+
+  const handleCreateNew = () => {
+    onNewChat();
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+      onToggle();
+    }
+  };
+
   return (
-    <aside className="w-72 sm:w-80 border-r border-slate-200 bg-slate-50/70 flex flex-col h-full flex-shrink-0 transition-all">
-      {/* Header & New Chat */}
-      <div className="p-3.5 border-b border-slate-200 space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-emerald-600" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700">Conversations</h2>
+    <>
+      {/* Mobile Drawer Backdrop */}
+      <div
+        className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-xs lg:hidden animate-in fade-in duration-150"
+        onClick={onToggle}
+      />
+
+      <aside className="fixed inset-y-0 left-0 z-50 w-72 sm:w-80 border-r border-slate-200 bg-white lg:bg-slate-50/70 flex flex-col h-full flex-shrink-0 shadow-2xl lg:shadow-none lg:static lg:z-auto transition-all">
+        {/* Header & New Chat */}
+        <div className="p-3.5 border-b border-slate-200 space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-emerald-600" />
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700">Conversations</h2>
+            </div>
+            <button
+              onClick={onToggle}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-all cursor-pointer"
+              title="Close Conversations"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
           </div>
+
           <button
-            onClick={onToggle}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-all cursor-pointer"
-            title="Collapse Sidebar"
+            onClick={handleCreateNew}
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs shadow-emerald-600/20 transition-all cursor-pointer"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <Plus className="w-4 h-4" />
+            <span>New Chat</span>
           </button>
-        </div>
 
-        <button
-          onClick={onNewChat}
-          className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs shadow-emerald-600/20 transition-all cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          <span>New Chat</span>
-        </button>
-
-        {/* Search */}
-        <div className="relative">
-          <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search conversations..."
-            className="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
-          />
-        </div>
-      </div>
-
-      {/* Conversation List */}
-      <div className="flex-1 overflow-y-auto p-2 space-y-1">
-        {filtered.length === 0 ? (
-          <div className="text-center py-8 text-xs text-slate-400">
-            {searchQuery ? "No matching conversations" : "No conversation history yet"}
+          {/* Search */}
+          <div className="relative">
+            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search conversations..."
+              className="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            />
           </div>
-        ) : (
-          filtered.map((conv) => {
-            const isActive = conv.id === activeId;
-            const isEditingThis = editingId === conv.id;
+        </div>
 
-            return (
-              <div
-                key={conv.id}
-                onClick={() => onSelectConversation(conv.id)}
-                className={`group relative flex items-center justify-between p-2.5 rounded-xl text-xs transition-all cursor-pointer ${
-                  isActive
-                    ? "bg-white text-slate-900 font-semibold shadow-xs border border-slate-200"
-                    : "text-slate-600 hover:bg-white/60 hover:text-slate-900"
-                }`}
-              >
+        {/* Conversation List */}
+        <div className="flex-1 overflow-y-auto p-2 space-y-1">
+          {filtered.length === 0 ? (
+            <div className="text-center py-8 text-xs text-slate-400">
+              {searchQuery ? "No matching conversations" : "No conversation history yet"}
+            </div>
+          ) : (
+            filtered.map((conv) => {
+              const isActive = conv.id === activeId;
+              const isEditingThis = editingId === conv.id;
+
+              return (
+                <div
+                  key={conv.id}
+                  onClick={() => handleSelect(conv.id)}
+                  className={`group relative flex items-center justify-between p-2.5 rounded-xl text-xs transition-all cursor-pointer ${
+                    isActive
+                      ? "bg-slate-100 lg:bg-white text-slate-900 font-semibold shadow-xs border border-slate-200"
+                      : "text-slate-600 hover:bg-slate-50 lg:hover:bg-white/60 hover:text-slate-900"
+                  }`}
+                >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-2">
                   <MessageSquare
                     className={`w-3.5 h-3.5 flex-shrink-0 ${
@@ -216,5 +237,6 @@ export function ChatSidebar({
         )}
       </div>
     </aside>
+    </>
   );
 }

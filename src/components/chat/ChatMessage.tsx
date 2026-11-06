@@ -133,8 +133,8 @@ export function ChatMessage({
       {/* Main Content Area */}
       <div className="flex-1 min-w-0 space-y-2">
         {/* Header Metadata */}
-        <div className="flex items-center justify-between text-xs text-slate-400">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between text-xs text-slate-400 gap-2">
+          <div className="flex flex-wrap items-center gap-1.5 min-w-0">
             <span className="font-semibold text-slate-800">
               {isUser ? "You" : "Tarik AI"}
             </span>
@@ -143,7 +143,7 @@ export function ChatMessage({
             {/* Voice Input Badge */}
             {message.isVoice && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                🎙️ Voice Message
+                🎙️ Voice
               </span>
             )}
 
@@ -157,20 +157,20 @@ export function ChatMessage({
                 }`}
               >
                 <Zap className="w-2.5 h-2.5" />
-                {message.mode === "fast" ? "Fast Mode" : "Deep Mode"}
+                {message.mode === "fast" ? "Fast" : "Deep"}
               </span>
             )}
 
             {/* Domain Pill */}
             {message.domain && message.domain !== "GENERAL_KNOWLEDGE" && (
-              <span className="bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded-full text-[10px] font-medium">
+              <span className="bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded-full text-[10px] font-medium hidden xs:inline-block">
                 {message.domain.replace("_", " ")}
               </span>
             )}
           </div>
 
-          {/* Quick Actions (Copy / Edit) */}
-          <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+          {/* Quick Actions (Copy / Edit) - Always accessible on mobile */}
+          <div className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center gap-1 flex-shrink-0">
             {isUser && onEdit && !isEditing && (
               <button
                 onClick={() => setIsEditing(true)}

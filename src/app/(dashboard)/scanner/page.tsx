@@ -891,7 +891,7 @@ export default function ScannerPage() {
               </div>
 
               {/* NAVIGATION TABS: MACROS, ITEMS, MICROS, CLINICAL */}
-              <div className="flex border-b border-slate-200 gap-2">
+              <div className="flex border-b border-slate-200 gap-2 overflow-x-auto no-scrollbar whitespace-nowrap pb-0.5">
                 <button
                   onClick={() => setActiveTab("macros")}
                   className={`pb-2.5 px-3 text-xs font-bold transition-all border-b-2 cursor-pointer flex items-center gap-1.5 ${
