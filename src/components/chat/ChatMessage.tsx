@@ -14,10 +14,13 @@ import {
   FileText,
   Edit2,
   Zap,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 import { CodeBlock } from "./CodeBlock";
 import { ToolExecutionBadge } from "./ToolExecutionBadge";
 import { ToolExecutionRecord } from "@/lib/tools";
+import { speechSynthesizer, VoiceLanguageId } from "@/lib/voice/speech-service";
 
 export interface ChatMessageItem {
   id: string;
@@ -29,6 +32,7 @@ export interface ChatMessageItem {
   assistantName?: string;
   isStreaming?: boolean;
   toolExecutions?: ToolExecutionRecord[];
+  languagePreference?: VoiceLanguageId;
   attachment?: {
     type: "image" | "file";
     name?: string;
@@ -41,15 +45,37 @@ interface ChatMessageProps {
   isStreaming?: boolean;
   onRegenerate?: () => void;
   onEdit?: (newText: string) => void;
+  selectedLanguage?: VoiceLanguageId;
 }
 
-export function ChatMessage({ message, isStreaming = false, onRegenerate, onEdit }: ChatMessageProps) {
+export function ChatMessage({
+  message,
+  isStreaming = false,
+  onRegenerate,
+  onEdit,
+  selectedLanguage = "auto",
+}: ChatMessageProps) {
   const [copied, setCopied] = useState(false);
   const [feedback, setFeedback] = useState<"up" | "down" | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(message.text);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const isUser = message.sender === "user";
+
+  const handleToggleSpeak = () => {
+    if (isSpeaking) {
+      speechSynthesizer.stop();
+      setIsSpeaking(false);
+    } else {
+      const langToUse = message.languagePreference || selectedLanguage || "auto";
+      const success = speechSynthesizer.speak(message.text, langToUse, {
+        onEnd: () => setIsSpeaking(false),
+        onError: () => setIsSpeaking(false),
+      });
+      if (success) setIsSpeaking(true);
+    }
+  };
 
   const handleCopy = async () => {
     try {
@@ -288,9 +314,25 @@ export function ChatMessage({ message, isStreaming = false, onRegenerate, onEdit
           </div>
         )}
 
-        {/* Assistant Bottom Actions (Thumbs, Copy, Regenerate) */}
+        {/* Assistant Bottom Actions (Speak, Thumbs, Copy, Regenerate) */}
         {!isUser && !isEditing && message.text && !isStreaming && (
           <div className="flex items-center gap-3 pt-1 text-slate-400 text-xs">
+            {/* Read Aloud / Text-to-Speech Button */}
+            <button
+              onClick={handleToggleSpeak}
+              className={`flex items-center gap-1 transition-colors cursor-pointer ${
+                isSpeaking ? "text-emerald-600 font-semibold animate-pulse" : "hover:text-slate-700"
+              }`}
+              title={isSpeaking ? "Stop listening" : "Read aloud (Voice synthesis)"}
+            >
+              {isSpeaking ? (
+                <VolumeX className="w-3.5 h-3.5 text-emerald-600" />
+              ) : (
+                <Volume2 className="w-3.5 h-3.5" />
+              )}
+              <span className="text-[11px]">{isSpeaking ? "Speaking..." : "Listen"}</span>
+            </button>
+
             <button
               onClick={handleCopy}
               className="flex items-center gap-1 hover:text-slate-700 transition-colors cursor-pointer"

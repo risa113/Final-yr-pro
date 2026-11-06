@@ -13,6 +13,7 @@ import {
   Utensils,
   Layers,
   Bot,
+  Radio,
 } from "lucide-react";
 
 export default function LandingPage() {
@@ -43,8 +44,16 @@ export default function LandingPage() {
           {/* Action CTAs */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
+              href="/assistant?mode=voice"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white font-semibold px-6 py-3.5 rounded-xl shadow-lg shadow-emerald-500/25 transition-all text-sm"
+            >
+              <Radio className="w-4 h-4 animate-pulse text-emerald-200" />
+              <span>Live Voice Assistant</span>
+            </Link>
+
+            <Link
               href="/dashboard"
-              className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-3.5 rounded-xl shadow-lg shadow-emerald-600/25 transition-all text-sm"
+              className="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-semibold px-6 py-3.5 rounded-xl border border-slate-200 shadow-sm transition-all text-sm"
             >
               <span>Explore Dashboard</span>
               <ArrowRight className="w-4 h-4" />

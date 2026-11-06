@@ -15,6 +15,7 @@ import {
   Settings,
   Sparkles,
   ShieldCheck,
+  Radio,
 } from "lucide-react";
 
 export function Sidebar() {
@@ -26,6 +27,7 @@ export function Sidebar() {
     { label: "Food Diary", href: "/diary", icon: BookOpen },
     { label: "Food Search", href: "/foods", icon: Search },
     { label: "Tarik AI Chatbot", href: "/assistant", icon: Bot, badge: "AI" },
+    { label: "Voice Assistant", href: "/assistant?mode=voice", icon: Radio, badge: "VOICE" },
     { label: "Meal Planner", href: "/meal-planner", icon: CalendarDays },
     { label: "Analytics", href: "/analytics", icon: BarChart3 },
     { label: "User Settings", href: "/settings", icon: Settings },

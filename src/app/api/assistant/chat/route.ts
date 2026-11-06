@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
       stream = true,
       attachment,
       nutritionContext,
+      languagePreference = "auto",
     } = body;
 
     // 1. Input Validation & Sanitization
@@ -95,6 +96,7 @@ export async function POST(req: NextRequest) {
         .map((t) => `[Tool: ${t.toolName} | Input: ${t.input}]\nOutput: ${t.output}`)
         .join("\n\n"),
       retrievedDocumentContext,
+      languagePreference,
     });
 
     // 6. Sliding Context Window (Fast: 6 messages, Deep: 10 messages)
@@ -154,6 +156,7 @@ export async function POST(req: NextRequest) {
                   assistantName: "Tarik AI",
                   tools: toolExecutions,
                   conversationId,
+                  languagePreference,
                 })}\n\n`
               )
             );
@@ -245,6 +248,7 @@ export async function POST(req: NextRequest) {
         assistantName: "Tarik AI",
         toolExecutions,
         conversationId,
+        languagePreference,
       },
       { status: 200 }
     );

@@ -17,6 +17,7 @@ import {
   LogOut,
   ChevronRight,
   Flame,
+  Radio,
 } from "lucide-react";
 
 export function Navbar() {
@@ -106,6 +107,15 @@ export function Navbar() {
           >
             <Bot className="w-3.5 h-3.5 text-indigo-600" />
             <span>Tarik AI</span>
+          </Link>
+
+          <Link
+            href="/assistant?mode=voice"
+            className="inline-flex items-center gap-1.5 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white px-3 py-1.5 rounded-full text-xs font-semibold shadow-xs transition-all"
+            title="Launch Voice Assistant (ChatGPT style)"
+          >
+            <Radio className="w-3.5 h-3.5 animate-pulse text-emerald-200" />
+            <span>Voice Mode</span>
           </Link>
         </div>
 

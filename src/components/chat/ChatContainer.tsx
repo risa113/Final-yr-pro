@@ -1,9 +1,16 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { ChatSidebar, ConversationItem } from "./ChatSidebar";
 import { ChatMessage, ChatMessageItem } from "./ChatMessage";
 import { ChatInput, AttachedFile } from "./ChatInput";
+import { VoiceAssistantModal } from "./VoiceAssistantModal";
+import {
+  speechSynthesizer,
+  VoiceLanguageId,
+  SUPPORTED_VOICE_LANGUAGES,
+} from "@/lib/voice/speech-service";
 import {
   Bot,
   Flame,
@@ -13,9 +20,15 @@ import {
   RefreshCw,
   ChevronRight,
   Zap,
+  Mic,
+  Volume2,
+  VolumeX,
+  Radio,
+  Globe,
 } from "lucide-react";
 
 export function ChatContainer() {
+  const searchParams = useSearchParams();
   const [conversations, setConversations] = useState<ConversationItem[]>([
     {
       id: "conv_default_general",
@@ -40,8 +53,41 @@ export function ChatContainer() {
   const [currentStreamingId, setCurrentStreamingId] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [errorNotice, setErrorNotice] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState<VoiceLanguageId>("auto");
+  const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
+  const [autoSpeakReplies, setAutoSpeakReplies] = useState(false);
   const abortControllerRef = useRef<AbortController | null>(null);
   const scrollEndRef = useRef<HTMLDivElement>(null);
+
+  // Load language and voice preferences from localStorage & URL
+  useEffect(() => {
+    if (searchParams && searchParams.get("mode") === "voice") {
+      setIsVoiceModalOpen(true);
+    }
+
+    if (typeof window !== "undefined") {
+      const savedLang = localStorage.getItem("nutri_voice_lang") as VoiceLanguageId;
+      if (savedLang) setSelectedLanguage(savedLang);
+      const savedAutoVoice = localStorage.getItem("nutri_auto_voice") === "true";
+      setAutoSpeakReplies(savedAutoVoice);
+    }
+  }, [searchParams]);
+
+  const handleLanguageChange = (lang: VoiceLanguageId) => {
+    setSelectedLanguage(lang);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("nutri_voice_lang", lang);
+    }
+  };
+
+  const handleToggleAutoVoice = () => {
+    const nextVal = !autoSpeakReplies;
+    setAutoSpeakReplies(nextVal);
+    if (!nextVal) speechSynthesizer.stop();
+    if (typeof window !== "undefined") {
+      localStorage.setItem("nutri_auto_voice", String(nextVal));
+    }
+  };
 
   // Suggested Prompts
   const quickPrompts = [
@@ -305,6 +351,7 @@ I have loaded this meal into your active nutritional budget. How can I help you?
               }
             : undefined,
           nutritionContext: userNutritionContext,
+          languagePreference: selectedLanguage,
         }),
       });
 
@@ -375,10 +422,15 @@ I have loaded this meal into your active nutritional budget. How can I help you?
                           ...m,
                           text: accumulatedText,
                           isStreaming: false,
+                          languagePreference: selectedLanguage,
                         }
                       : m
                   )
                 );
+
+                if (autoSpeakReplies && accumulatedText) {
+                  speechSynthesizer.speak(accumulatedText, selectedLanguage);
+                }
               } else if (eventData.type === "error") {
                 setErrorNotice(eventData.error);
               }
@@ -437,6 +489,54 @@ I have loaded this meal into your active nutritional budget. How can I help you?
     handleSendMessage(editedText);
   };
 
+  // Direct Voice Assistant Send Turn
+  const handleVoiceAssistantSend = async (spokenText: string, lang: VoiceLanguageId): Promise<string> => {
+    const userMsgId = `usr_${Date.now()}`;
+    const userMsg: ChatMessageItem = {
+      id: userMsgId,
+      sender: "user",
+      text: spokenText,
+      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    };
+
+    setMessages((prev) => [...prev, userMsg]);
+
+    const res = await fetch("/api/assistant/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: spokenText,
+        conversationId: activeConversationId,
+        stream: false,
+        nutritionContext: userNutritionContext,
+        languagePreference: lang,
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || "Failed to receive Tarik AI voice reply.");
+    }
+
+    const data = await res.json();
+    const replyText = data.reply || "";
+
+    const botMsgId = `bot_${Date.now()}`;
+    const botMsg: ChatMessageItem = {
+      id: botMsgId,
+      sender: "assistant",
+      text: replyText,
+      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      domain: data.domain,
+      mode: data.mode,
+      toolExecutions: data.toolExecutions,
+      languagePreference: lang,
+    };
+
+    setMessages((prev) => [...prev, botMsg]);
+    return replyText;
+  };
+
   return (
     <div className="flex h-[calc(100vh-4.5rem)] max-w-7xl mx-auto rounded-3xl border border-slate-200 overflow-hidden bg-white shadow-xs">
       {/* Sidebar */}
@@ -474,8 +574,36 @@ I have loaded this meal into your active nutritional budget. How can I help you?
             </div>
           </div>
 
-          {/* Quick Context Stats */}
+          {/* Header Controls: Live Voice Mode & Auto-Speak */}
           <div className="flex items-center gap-2 text-[11px] font-medium overflow-x-auto no-scrollbar">
+            {/* Live Voice Assistant Modal Trigger */}
+            <button
+              onClick={() => setIsVoiceModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white font-semibold shadow-xs transition-all cursor-pointer flex-shrink-0"
+              title="Launch hands-free real-time Voice Assistant (like ChatGPT Voice Mode)"
+            >
+              <Radio className="w-3.5 h-3.5 animate-pulse text-emerald-200" />
+              <span>🎙️ Live Voice Assistant</span>
+            </button>
+
+            {/* Auto Read-Aloud Toggle */}
+            <button
+              onClick={handleToggleAutoVoice}
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border text-[11px] font-medium transition-colors cursor-pointer flex-shrink-0 ${
+                autoSpeakReplies
+                  ? "bg-emerald-50 border-emerald-300 text-emerald-800 font-semibold"
+                  : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
+              }`}
+              title="Toggle automatic speech synthesis for assistant replies"
+            >
+              {autoSpeakReplies ? (
+                <Volume2 className="w-3.5 h-3.5 text-emerald-600" />
+              ) : (
+                <VolumeX className="w-3.5 h-3.5 text-slate-400" />
+              )}
+              <span>Voice Out: {autoSpeakReplies ? "ON" : "OFF"}</span>
+            </button>
+
             <span className="bg-emerald-50 text-emerald-800 border border-emerald-200/80 px-2.5 py-1 rounded-full flex items-center gap-1 font-semibold flex-shrink-0">
               <Flame className="w-3 h-3 text-emerald-600" />
               <span>1,590 kcal left</span>
@@ -483,10 +611,6 @@ I have loaded this meal into your active nutritional budget. How can I help you?
             <span className="bg-indigo-50 text-indigo-800 border border-indigo-200/80 px-2.5 py-1 rounded-full flex items-center gap-1 font-semibold flex-shrink-0">
               <Scale className="w-3 h-3 text-indigo-600" />
               <span>101g protein</span>
-            </span>
-            <span className="bg-red-50 text-red-700 border border-red-200/80 px-2 py-1 rounded-full flex items-center gap-1 font-semibold flex-shrink-0">
-              <ShieldAlert className="w-3 h-3 text-red-500" />
-              <span>Allergy: Peanuts</span>
             </span>
           </div>
         </div>
@@ -523,6 +647,7 @@ I have loaded this meal into your active nutritional budget. How can I help you?
                 isStreaming={isLoading && m.id === currentStreamingId}
                 onRegenerate={m.sender === "assistant" && !isLoading ? handleRegenerate : undefined}
                 onEdit={m.sender === "user" ? handleEditUserMessage : undefined}
+                selectedLanguage={selectedLanguage}
               />
             ))
           )}
@@ -550,11 +675,24 @@ I have loaded this meal into your active nutritional budget. How can I help you?
           </div>
         )}
 
-        {/* Input Form */}
+        {/* Input Form with Voice Support */}
         <ChatInput
           onSendMessage={handleSendMessage}
           onStopGeneration={handleStopGeneration}
           isLoading={isLoading}
+          selectedLanguage={selectedLanguage}
+          onLanguageChange={handleLanguageChange}
+          onOpenVoiceMode={() => setIsVoiceModalOpen(true)}
+        />
+
+        {/* Real-time Multilingual Voice Assistant Modal */}
+        <VoiceAssistantModal
+          isOpen={isVoiceModalOpen}
+          onClose={() => setIsVoiceModalOpen(false)}
+          selectedLanguage={selectedLanguage}
+          onLanguageChange={handleLanguageChange}
+          onSendVoiceMessage={handleVoiceAssistantSend}
+          userName={userNutritionContext.userName}
         />
       </div>
     </div>
